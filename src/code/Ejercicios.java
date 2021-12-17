@@ -1,5 +1,6 @@
 package code;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Ejercicios {
@@ -202,6 +203,88 @@ public class Ejercicios {
 		int co2ScrubberRating = binaryStringToInteger(co2Scrubber.get(0));
 		
 		return oxygenGeneratorRating * co2ScrubberRating;
+	}
+	
+	public int Day4Part1() {
+		Scanner input = new Scanner(System.in);
+		String line = "";
+		String [] randomNumbersString;
+		int [] randomNumbers;
+		ArrayList<int[][]> cardboards = new ArrayList<int[][]>();
+		
+		line = input.nextLine();
+		randomNumbersString = line.split(",");
+		
+		randomNumbers = new int [randomNumbersString.length];
+		for (int i = 0; i < randomNumbersString.length; i++) {
+			randomNumbers[i] = Integer.parseInt(randomNumbersString[i]);
+		}
+		
+		while (input.hasNextLine()) {
+			line = input.nextLine();
+			if (line.contains("stop")) break;
+			
+			int [][] cardboard = new int[5][5];
+			for (int i = 0 ; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					cardboard[i][j] = input.nextInt();
+				}
+ 			}
+			cardboards.add(cardboard);		
+		}
+		
+		boolean bingo = false;
+		int finalSum = 0;
+
+		for (int i = 0; i < randomNumbers.length && !bingo; i++) {
+			for (int j = 0; j < cardboards.size() && !bingo; j++) {
+				int [][] actualCardboard = cardboards.get(j);
+				int index = 0;
+				
+				while (index < 5 && !bingo) {
+					boolean mayWinRow = true;
+					boolean mayWinColumn = true;
+					boolean contains = arrayContainsGivenValue(Arrays.copyOfRange(randomNumbers, 0, i+1), actualCardboard[index][index]);
+					if (contains) {
+						for (int k = 0; k < actualCardboard[0].length && mayWinRow; k++) {
+							if (!arrayContainsGivenValue(Arrays.copyOfRange(randomNumbers, 0, i+1), actualCardboard[k][index])) {
+								mayWinRow = false;
+							}
+						}
+						
+						for (int k = 0; k < actualCardboard.length && mayWinColumn; k++) {
+							if (!arrayContainsGivenValue(Arrays.copyOfRange(randomNumbers, 0, i+1), actualCardboard[index][k])) {
+								mayWinColumn = false;
+							}
+						}
+						if (mayWinRow || mayWinColumn) {
+							bingo = true;
+							for (int a = 0; a < actualCardboard.length; a++) {
+								for (int b = 0; b < actualCardboard[0].length; b++) {
+									if (!arrayContainsGivenValue(Arrays.copyOfRange(randomNumbers, 0, i+1), actualCardboard[a][b])) {										
+										finalSum += actualCardboard[a][b];
+									}
+								}
+							}
+							finalSum *= randomNumbers[i];
+						}
+					}
+					index++;
+				}
+			}
+		}
+		
+		return finalSum;
+	}
+	
+	private boolean arrayContainsGivenValue(int[] array, int value) {
+		boolean findit = false;
+		for (int i = 0; i < array.length && !findit; i++) {
+			if (array[i] == value) {
+				findit = true;
+			}
+		}
+		return findit;
 	}
 	
 	private ArrayList<String> inputToStringCollection() {
