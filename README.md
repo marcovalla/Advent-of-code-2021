@@ -18,11 +18,6 @@ To use the code in this repository, you can follow these steps:
 4. Run the project from your IDE
 5. Provide input data for the algorithm (if necessary) through the console
 
-
-This will compile the `Ejercicios.java` file and execute the solution for the first problem.
-
-Note that some of the algorithms require input data to function correctly. In this case, you should create a new file in the `src/code/input` directory and name it `dayN.txt`, where `N` is the day number of the problem you want to solve. Place the input data in this file, with each line representing a different input value.
-
 ## Credits
 
 This repository was created by [marcovalla](https://github.com/marcovalla) and is provided under the MIT license. The "Advent of Code" problems are the property of [Eric Wastl](https://github.com/topaz).
